@@ -13,9 +13,7 @@ import com.capgemini.bankapp.client.BankAccount;
 import com.capgemini.bankapp.dao.BankAccountDao;
 import com.capgemini.bankapp.exception.AccountNotFoundException;
 
-import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 public class BankAccountDaoImpl implements BankAccountDao {
 	
 	JdbcTemplate jdbcTemplate;

@@ -10,7 +10,7 @@ import com.capgemini.bankapp.exception.LowBalanceException;
 import com.capgemini.bankapp.service.BankAccountService;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
+
 public class BankAccountServiceImpl implements BankAccountService {
 
 	private BankAccountDao bankAccount;
@@ -86,26 +86,12 @@ public class BankAccountServiceImpl implements BankAccountService {
 			throws LowBalanceException, AccountNotFoundException {
 
 		try {
-			double newBalance = withdrawForFundTransfer(fromAccountId, amount);
+			double newBalance = withdraw(fromAccountId, amount);
 			deposit(toAccountId, amount);
 			return newBalance;
 		} catch (LowBalanceException | AccountNotFoundException e) {
 
 			throw e;
-		}
-	}
-	
-	private double withdrawForFundTransfer(long accountId, double amount)
-			throws AccountNotFoundException, LowBalanceException {
-		double balance = bankAccount.getBalance(accountId);
-		if (balance < 0) {
-			throw new AccountNotFoundException("BankAccount doesn't exist....");
-		} else if (balance - amount >= 0) {
-			balance = balance - amount;
-			bankAccount.updateBalance(accountId, balance);
-			return balance;
-		} else {
-			throw new LowBalanceException("You don't have sufficient fund.");
 		}
 	}
 
