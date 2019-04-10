@@ -141,7 +141,7 @@ public class BankAccountClient {
 					accountId = Long.parseLong(reader.readLine());
 					System.out.println("Your current balance is :" + accountService.checkBalance(accountId));
 
-					break;
+					break;*/
 
 				case 9:
 					System.out.println("Enter your Account Id:");
@@ -154,7 +154,7 @@ public class BankAccountClient {
 						System.out.println("Bank Detail Updated Successfully....");
 					}
 
-					break;*/
+					break;
 				case 10:
 					System.out.println("Thank you for Banking with us.");
 					System.exit(0);

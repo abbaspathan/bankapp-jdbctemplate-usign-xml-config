@@ -114,28 +114,19 @@ public class BankAccountDaoImpl implements BankAccountDao {
 		return account;
 	}*/
 
-	/*@Override
+	@Override
 	public boolean updateBankAccountDetails(long accountId, String accountHolderName, String accountType) {
 
-		String query = "UPDATE bankaccounts SET customer_name=?,account_type=? WHERE account_id=?";
-		//Connection connection = DbUtil.getConnection();
-		try (PreparedStatement statement = connection.prepareStatement(query)) {
+		String query = "UPDATE bankaccounts SET customer_name='"+accountHolderName+"',account_type='"+accountType+"' WHERE account_id='"+accountId+"' ";
 
-			statement.setString(1, accountHolderName);
-			statement.setString(2, accountType);
-			statement.setLong(3, accountId);
+			int result = jdbcTemplate.update(query);
 
-			int result = statement.executeUpdate();
-
-			if (result == 1) {
+			if(result>0){
 				return true;
+			}else{
+				return false;
 			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return false;
-	}*/
+	}
 
 	/*public void commit() {
 		try {

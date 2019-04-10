@@ -115,13 +115,10 @@ public class BankAccountServiceImpl implements BankAccountService {
 		}
 	}*/
 
-	/*@Override
+	@Override
 	public boolean updateBankAccountDetails(long accountId, String accountHolderName, String accountType) {
 		boolean result = bankAccount.updateBankAccountDetails(accountId, accountHolderName, accountType);
-		if (result) {
-			bankAccount.commit();
-		}
-
+		
 		return result;
-	}*/
+	}
 }
