@@ -7,11 +7,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.sql.*;
+import com.capgemini.bankapp.map.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import com.capgemini.bankapp.client.BankAccount;
 import com.capgemini.bankapp.dao.BankAccountDao;
 import com.capgemini.bankapp.exception.AccountNotFoundException;
 
+import org.springframework.transaction.annotation.Transactional;
+
+@Transactional
 public class BankAccountDaoImpl implements BankAccountDao {
 	
 	JdbcTemplate jdbcTemplate;
@@ -20,22 +24,18 @@ public class BankAccountDaoImpl implements BankAccountDao {
 	}
 
 
-	/*@Override
-	public double getBalance(long accountId) {
-		String query = "SELECT account_balance FROM bankaccounts WHERE account_id=" + accountId;
+	@Override
+	public double getBalance(long accountId)throws AccountNotFoundException {
+		String query = "SELECT account_balance FROM bankaccounts WHERE account_id=?";
 		double balance = -1;
-		//Connection connection = DbUtil.getConnection();
-		try (PreparedStatement statement = connection.prepareStatement(query);
-				ResultSet result = statement.executeQuery()) {
-			if (result.next()) {
-				balance = result.getDouble(1);
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
+		try{
+			balance=jdbcTemplate.queryForObject(query, new Object[]{accountId},Double.class);
+			
+		}catch(Exception e){
+			throw new AccountNotFoundException("BankAccount doesn't exist....");
 		}
 		return balance;
-	}*/
+	}
 
 	@Override
 	public void updateBalance(long accountId, double newBalance) {
@@ -69,50 +69,24 @@ public class BankAccountDaoImpl implements BankAccountDao {
 	}
 
 
-	/*@Override
+	@Override
 	public List<BankAccount> findAllBankAccountsDetails() {
 		String query = "SELECT * FROM bankaccounts";
-		BankAccount account;
-		List<BankAccount> accounts = new ArrayList<BankAccount>();
+		List <BankAccount> account = jdbcTemplate.query(query, new BankMapper());
+		return account;
+	}
 
-		//Connection connection = DbUtil.getConnection();
-		try (PreparedStatement statement = connection.prepareStatement(query);
-				ResultSet resultSet = statement.executeQuery()) {
-
-			while (resultSet.next()) {
-
-				account = new BankAccount(resultSet.getLong(1), resultSet.getString(2), resultSet.getString(3),
-						resultSet.getDouble(4));
-				accounts.add(account);
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return accounts;
-	}*/
-
-	/*@Override
+	@Override
 	public BankAccount searchAccountDetails(long accountId) throws AccountNotFoundException {
-		String query = "SELECT * FROM bankaccounts WHERE account_id=" + accountId;
+		String query = "SELECT * FROM bankaccounts WHERE account_id=?";
 		BankAccount account = null;
-
-		//Connection connection = DbUtil.getConnection();
-		try (PreparedStatement statement = connection.prepareStatement(query);
-				ResultSet resultSet = statement.executeQuery()) {
-
-			if (resultSet.next()) {
-				account = new BankAccount(resultSet.getLong(1), resultSet.getString(2), resultSet.getString(3),
-						resultSet.getDouble(4));
-			} else {
-				throw new AccountNotFoundException("BankAccount doesn't exist....");
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
+		try{
+			account = jdbcTemplate.queryForObject(query,new Object[]{accountId},new BankMapper());
+		}catch(Exception e){
+			throw new AccountNotFoundException("BankAccount doesn't exist....");	
 		}
 		return account;
-	}*/
+	}
 
 	@Override
 	public boolean updateBankAccountDetails(long accountId, String accountHolderName, String accountType) {
@@ -127,25 +101,5 @@ public class BankAccountDaoImpl implements BankAccountDao {
 				return false;
 			}
 	}
-
-	/*public void commit() {
-		try {
-			if (connection != null) {
-				connection.commit();
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void rollback() {
-		try {
-			if (connection != null) {
-				connection.rollback();
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}*/
 
 }

@@ -7,7 +7,7 @@ import com.capgemini.bankapp.exception.AccountNotFoundException;
 
 public interface BankAccountDao {
 
-	//public double getBalance(long accountId);
+	public double getBalance(long accountId)throws AccountNotFoundException;
 
 	public void updateBalance(long accountId, double newBalance);
 
@@ -15,9 +15,9 @@ public interface BankAccountDao {
 
 	public boolean addNewBankAccount(BankAccount account);
 
-	//public List<BankAccount> findAllBankAccountsDetails();
+	public List<BankAccount> findAllBankAccountsDetails();
 
-	//public BankAccount searchAccountDetails(long accountId) throws AccountNotFoundException;
+	public BankAccount searchAccountDetails(long accountId) throws AccountNotFoundException;
 
 	public boolean updateBankAccountDetails(long accountId, String accountHolderName, String accountType);
 	

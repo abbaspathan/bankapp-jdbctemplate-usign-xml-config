@@ -8,7 +8,9 @@ import com.capgemini.bankapp.dao.impl.BankAccountDaoImpl;
 import com.capgemini.bankapp.exception.AccountNotFoundException;
 import com.capgemini.bankapp.exception.LowBalanceException;
 import com.capgemini.bankapp.service.BankAccountService;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class BankAccountServiceImpl implements BankAccountService {
 
 	private BankAccountDao bankAccount;
@@ -17,17 +19,13 @@ public class BankAccountServiceImpl implements BankAccountService {
 		this.bankAccount = bankAccount;
 	}
 
-	/*@Override
+	@Override
 	public double checkBalance(long accountId) throws AccountNotFoundException {
 		double balance = bankAccount.getBalance(accountId);
-		if (balance >= 0) {
-			return balance;
-		} else {
-			throw new AccountNotFoundException("BankAccount doesn't exist....");
-		}
-	}*/
+		return balance;
+	}
 
-	/*@Override
+	@Override
 	public double withdraw(long accountId, double amount) throws LowBalanceException, AccountNotFoundException {
 		double balance = bankAccount.getBalance(accountId);
 		if (balance < 0) {
@@ -35,14 +33,13 @@ public class BankAccountServiceImpl implements BankAccountService {
 		} else if (balance - amount >= 0) {
 			balance = balance - amount;
 			bankAccount.updateBalance(accountId, balance);
-			//bankAccount.commit();
 			return balance;
 		} else {
 			throw new LowBalanceException("You don't have sufficient fund.");
 		}
-	}*/
+	}
 
-	/*@Override
+	@Override
 	public double deposit(long accountId, double amount) throws AccountNotFoundException {
 		double balance = bankAccount.getBalance(accountId);
 		if (balance < 0) {
@@ -50,17 +47,15 @@ public class BankAccountServiceImpl implements BankAccountService {
 		} else {
 			balance = balance + amount;
 			bankAccount.updateBalance(accountId, balance);
-			bankAccount.commit();
 			return balance;
 		}
-	}*/
+	}
 
 	@Override
 	public boolean deleteBankAccount(long accountId) throws AccountNotFoundException {
 		boolean result = bankAccount.deleteBankAccount(accountId);
 
 		if (result) {
-			//bankAccount.commit();
 			return result;
 		} else {
 			throw new AccountNotFoundException("BankAccount doesn't exist....");
@@ -74,34 +69,32 @@ public class BankAccountServiceImpl implements BankAccountService {
 		return result;
 	}
 
-	/*@Override
+	@Override
 	public List<BankAccount> findAllBankAccountsDetails() {
 		return bankAccount.findAllBankAccountsDetails();
-	}*/
+	}
 
-	/*@Override
+	@Override
 	public BankAccount searchAccountDetails(long accountId) throws AccountNotFoundException {
 		return bankAccount.searchAccountDetails(accountId);
-	}*/
+	}
 
-	/*@Override
+	@Override
+	@Transactional(rollbackFor=AccountNotFoundException.class)
 	public double fundTransfer(long fromAccountId, long toAccountId, double amount)
 			throws LowBalanceException, AccountNotFoundException {
 
 		try {
 			double newBalance = withdrawForFundTransfer(fromAccountId, amount);
 			deposit(toAccountId, amount);
-			bankAccount.commit();
 			return newBalance;
 		} catch (LowBalanceException | AccountNotFoundException e) {
 
-			e.printStackTrace();
-			bankAccount.rollback();
 			throw e;
 		}
-	}*/
-
-	/*private double withdrawForFundTransfer(long accountId, double amount)
+	}
+	
+	private double withdrawForFundTransfer(long accountId, double amount)
 			throws AccountNotFoundException, LowBalanceException {
 		double balance = bankAccount.getBalance(accountId);
 		if (balance < 0) {
@@ -113,12 +106,11 @@ public class BankAccountServiceImpl implements BankAccountService {
 		} else {
 			throw new LowBalanceException("You don't have sufficient fund.");
 		}
-	}*/
+	}
 
 	@Override
 	public boolean updateBankAccountDetails(long accountId, String accountHolderName, String accountType) {
 		boolean result = bankAccount.updateBankAccountDetails(accountId, accountHolderName, accountType);
-		
 		return result;
 	}
 }

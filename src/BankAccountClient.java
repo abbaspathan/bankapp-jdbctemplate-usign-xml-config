@@ -57,7 +57,7 @@ public class BankAccountClient {
 						System.out.println("Account can't created");
 					}
 					break;
-				/*case 2:
+				case 2:
 					System.out.println("Enter your account Id:");
 					accountId = Long.parseLong(reader.readLine());
 					System.out.println("Enter amount you want to withdraw:");
@@ -67,7 +67,7 @@ public class BankAccountClient {
 						System.out.println("Your Current Balance is:" + accountService.withdraw(accountId, amount));
 					} catch (LowBalanceException e) {
 						System.out.println(e.getMessage());
-						e.printStackTrace();
+						
 					}
 
 					break;
@@ -91,9 +91,9 @@ public class BankAccountClient {
 						System.out.println("Your Current Balance is:"
 								+ accountService.fundTransfer(accountId, reciverAccountId, amount));
 					} catch (LowBalanceException | AccountNotFoundException e) {
-						e.printStackTrace();
+						System.out.println(e.getMessage());
 					}
-					break;*/
+					break;
 
 				case 5:
 					System.out.println("Enter your Account Id:");
@@ -106,7 +106,7 @@ public class BankAccountClient {
 						System.out.println();
 					}
 					break;
-				/*case 6:
+				case 6:
 					List<BankAccount> accounts = accountService.findAllBankAccountsDetails();
 					Iterator<BankAccount> iterator = accounts.iterator();
 
@@ -133,15 +133,19 @@ public class BankAccountClient {
 						System.out.println();
 					} catch (AccountNotFoundException e) {
 						System.out.println(e.getMessage());
-						e.printStackTrace();
+						
 					}
 					break;
 				case 8:
 					System.out.println("Enter your Account Id:");
 					accountId = Long.parseLong(reader.readLine());
-					System.out.println("Your current balance is :" + accountService.checkBalance(accountId));
+					try{
+						System.out.println("Your current balance is :" + accountService.checkBalance(accountId));
+					}catch(Exception e){
+						System.out.println(e.getMessage());
+					}
 
-					break;*/
+					break;
 
 				case 9:
 					System.out.println("Enter your Account Id:");
