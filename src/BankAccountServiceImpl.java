@@ -28,6 +28,7 @@ public class BankAccountServiceImpl implements BankAccountService {
 	@Override
 	public double withdraw(long accountId, double amount) throws LowBalanceException, AccountNotFoundException {
 		double balance = bankAccount.getBalance(accountId);
+		
 		if (balance < 0) {
 			throw new AccountNotFoundException("BankAccount doesn't exist....");
 		} else if (balance - amount >= 0) {

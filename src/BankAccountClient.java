@@ -64,8 +64,9 @@ public class BankAccountClient {
 					amount = Double.parseDouble(reader.readLine());
 
 					try {
-						System.out.println("Your Current Balance is:" + accountService.withdraw(accountId, amount));
-					} catch (LowBalanceException e) {
+						double balance=accountService.withdraw(accountId, amount);
+						System.out.println("Your Current Balance is:"+balance );
+					} catch (Exception e) {
 						System.out.println(e.getMessage());
 						
 					}
@@ -76,7 +77,12 @@ public class BankAccountClient {
 					accountId = Long.parseLong(reader.readLine());
 					System.out.println("Enter amount you want to Deposit:");
 					amount = Double.parseDouble(reader.readLine());
-					System.out.println("Your Current Balance is:" + accountService.deposit(accountId, amount));
+					try{
+						double balance=accountService.deposit(accountId, amount);
+						System.out.println("Your Current Balance is:" +balance );
+					}catch(Exception e){
+						System.out.println(e.getMessage());
+					}
 
 					break;
 				case 4:
