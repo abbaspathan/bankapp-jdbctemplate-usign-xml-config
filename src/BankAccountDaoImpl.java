@@ -89,17 +89,19 @@ public class BankAccountDaoImpl implements BankAccountDao {
 	}
 
 	@Override
-	public boolean updateBankAccountDetails(long accountId, String accountHolderName, String accountType) {
+	public boolean updateBankAccountDetails(long accountId, String accountHolderName, String accountType)throws AccountNotFoundException {
 
 		String query = "UPDATE bankaccounts SET customer_name='"+accountHolderName+"',account_type='"+accountType+"' WHERE account_id='"+accountId+"' ";
-
-			int result = jdbcTemplate.update(query);
-
+			int result=-1;
+			
+			result = jdbcTemplate.update(query);
+			
 			if(result>0){
 				return true;
 			}else{
-				return false;
-			}
+				throw new  AccountNotFoundException("BankAccount doesn't exist....");
+			}		
+				
 	}
 
 }

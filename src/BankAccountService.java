@@ -25,6 +25,6 @@ public interface BankAccountService {
 	public double fundTransfer(long fromAccount, long toAccount, double amount)
 			throws AccountNotFoundException, LowBalanceException;
 
-	public boolean updateBankAccountDetails(long accountId, String accountHolderName, String accountType);
+	public boolean updateBankAccountDetails(long accountId, String accountHolderName, String accountType)throws AccountNotFoundException;
 
 }

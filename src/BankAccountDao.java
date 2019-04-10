@@ -19,10 +19,6 @@ public interface BankAccountDao {
 
 	public BankAccount searchAccountDetails(long accountId) throws AccountNotFoundException;
 
-	public boolean updateBankAccountDetails(long accountId, String accountHolderName, String accountType);
+	public boolean updateBankAccountDetails(long accountId, String accountHolderName, String accountType)throws AccountNotFoundException;
 	
-	//public void commit();
-
-	//public void rollback();
-
 }

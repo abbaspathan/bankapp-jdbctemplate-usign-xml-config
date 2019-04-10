@@ -109,7 +109,7 @@ public class BankAccountServiceImpl implements BankAccountService {
 	}
 
 	@Override
-	public boolean updateBankAccountDetails(long accountId, String accountHolderName, String accountType) {
+	public boolean updateBankAccountDetails(long accountId, String accountHolderName, String accountType)throws AccountNotFoundException {
 		boolean result = bankAccount.updateBankAccountDetails(accountId, accountHolderName, accountType);
 		return result;
 	}

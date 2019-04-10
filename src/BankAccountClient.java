@@ -33,7 +33,7 @@ public class BankAccountClient {
 
 			while (true) {
 				System.out.println(
-						"1. Add New BankAccount\n2. Withdraw\n3. Deposit\n4. Fund Transfer\n5. Delete BankAccount\n6. Display All BankAccount Details\n7. Search BankAccount\n8. Check Balance\n9.Update Bank Account Details\n10. Exit\n");
+						"1. Add New BankAccount\n2. Withdraw\n3. Deposit\n4. Fund Transfer\n5. Delete BankAccount\n6. Display All BankAccount Details\n7. Search BankAccount\n8. Check Balance\n9. Update Bank Account Details\n10. Exit\n");
 
 				System.out.print("Enter your choice :");
 				choice = Integer.parseInt(reader.readLine());
@@ -154,8 +154,12 @@ public class BankAccountClient {
 					accountHolderName = reader.readLine();
 					System.out.println("Update account type:");
 					accountType = reader.readLine();
-					if (accountService.updateBankAccountDetails(accountId, accountHolderName, accountType)) {
-						System.out.println("Bank Detail Updated Successfully....");
+					try{
+						if (accountService.updateBankAccountDetails(accountId, accountHolderName, accountType)) {
+							System.out.println("Bank Detail Updated Successfully....");
+						}
+					}catch(Exception e){
+						System.out.println(e.getMessage());
 					}
 
 					break;
